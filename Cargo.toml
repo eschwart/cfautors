@@ -1,0 +1,28 @@
+[package]
+name = "cfautors"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
+
+[dependencies.reqwest]
+version = "0.11.20"
+default-features = false
+features = ["blocking", "default-tls", "json"]
+
+[dependencies.serde]
+version = "1.0.188"
+default-features = false
+
+[dependencies.serde_derive]
+version = "1.0.188"
+default-features = false
+
+[dependencies.clap]
+version = "4.4.4"
+default-features = false
+features = ["std", "derive", "help", "color", "usage", "error-context"]
