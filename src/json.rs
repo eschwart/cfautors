@@ -8,10 +8,8 @@ use {
 
 #[derive(Deserialize, Debug)]
 pub struct DnsRecordResult {
-    #[serde(alias = "name")]
-    _name: String,
-    #[serde(alias = "type")]
-    _type: String,
+    name: String,
+    r#type: String,
     content: IpAddr,
 }
 
@@ -117,12 +115,12 @@ impl TryInto<Body> for DnsRecordResult {
         Ok(Body {
             content: self.content,
             name: self
-                ._name
+                .name
                 .split_once('.')
                 .ok_or(Error::Invalid)?
                 .0
                 .to_string(),
-            r#type: self._type,
+            r#type: self.r#type,
         })
     }
 }
