@@ -4,15 +4,16 @@ use {
         json::{Body, DnsRecord, DnsRecordResult, PublicIpAPI},
     },
     clap::Parser,
+    humantime::parse_duration,
     reqwest::{
         blocking::{Client, RequestBuilder},
         header::CONTENT_TYPE,
         Method,
     },
-    std::net::IpAddr,
+    std::{net::IpAddr, thread::sleep, time::Duration},
 };
 
-#[derive(Parser, Debug)]
+#[derive(Parser)]
 #[command(author, version, about)]
 struct Config {
     #[arg(short, long)]
@@ -26,12 +27,16 @@ struct Config {
 
     #[arg(short, long)]
     id: String,
+
+    #[arg(short, long, value_parser = parse_duration, default_value = "5min")]
+    delay: Duration,
 }
 
 pub struct BaseClient {
     client: Client,
     body: Body,
     builder_fn: Box<dyn Fn(Method, &Client) -> RequestBuilder>,
+    delay: Duration,
 }
 
 impl BaseClient {
@@ -47,7 +52,9 @@ impl BaseClient {
             api_token,
             zone_id,
             id,
+            delay,
         } = Config::parse();
+
         let client = Client::default();
         let builder_fn = Box::new(move |method: Method, client: &Client| -> RequestBuilder {
             client
@@ -68,6 +75,7 @@ impl BaseClient {
             client,
             body,
             builder_fn,
+            delay,
         })
     }
 
@@ -92,6 +100,10 @@ impl BaseClient {
             .into_iter()
             .find_map(|api| api.try_get(&self.client).ok())
             .ok_or(Error::API)
+    }
+
+    pub fn delay(&self) {
+        sleep(self.delay)
     }
 
     fn request(
