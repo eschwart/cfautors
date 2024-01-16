@@ -6,10 +6,10 @@ mod util;
 use {cfg::*, err::*, util::*};
 
 fn main() -> Result<()> {
-    let mut client = BaseClient::setup()?;
+    let mut client = dbg("Initializing client", || BaseClient::setup())?;
 
     loop {
-        match routine(&mut client) {
+        match dbg("Doing routine", || routine(&mut client)) {
             Ok(patch) => {
                 if let Some((old, new)) = patch {
                     println!("PATCH: {} => {}", old, new)
@@ -17,6 +17,6 @@ fn main() -> Result<()> {
             }
             Err(e) => eprintln!("{}", e),
         }
-        delay()
+        dbg("Delaying", || Ok(client.delay()))?;
     }
 }

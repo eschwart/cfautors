@@ -1,9 +1,10 @@
 use {
     crate::{BaseClient, Result},
-    std::{net::IpAddr, thread::sleep, time::Duration},
+    std::{
+        io::{stdout, Write},
+        net::IpAddr,
+    },
 };
-
-pub const DELAY: Duration = Duration::from_secs(300);
 
 pub fn routine(client: &mut BaseClient) -> Result<Option<(IpAddr, IpAddr)>> {
     let current = client.public_ip()?;
@@ -17,6 +18,18 @@ pub fn routine(client: &mut BaseClient) -> Result<Option<(IpAddr, IpAddr)>> {
     })
 }
 
-pub fn delay() {
-    sleep(DELAY)
+pub fn dbg<T, F: FnOnce() -> Result<T>>(msg: &'static str, f: F) -> Result<T> {
+    let mut stdout = stdout();
+    stdout.write_fmt(format_args!("{}...", msg))?;
+    stdout.flush()?;
+
+    let result = f();
+
+    stdout.write_fmt(format_args!(
+        " {}\n",
+        if result.is_ok() { "Done" } else { "Failed" }
+    ))?;
+
+    stdout.flush()?;
+    result
 }
