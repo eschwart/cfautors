@@ -6,17 +6,17 @@ This is a simple workaround for those that don't have an assigned static public 
 
 ## Usage
 ```
-Usage: cfautors.exe --email <EMAIL> --api-token <API_TOKEN> --zone-id <ZONE_ID> --id <ID>
+Usage: cfautors [OPTIONS] --email <EMAIL> --api-token <API_TOKEN> --zone-id <ZONE_ID> --id <ID>
 
 Options:
-  -e, --email <EMAIL>
-  -a, --api-token <API_TOKEN>
-  -z, --zone-id <ZONE_ID>
-  -i, --id <ID>
+  -e, --email <EMAIL>          
+  -a, --api-token <API_TOKEN>  
+  -z, --zone-id <ZONE_ID>      
+  -i, --id <ID>                
+  -d, --delay <DELAY>          [default: 5min]
   -h, --help                   Print help
   -V, --version                Print version
 ```
 
 ## Todo
-+ I'm lazy and have only spent a few hours on this so I'd still like to, at some point, add a `delay` argument which would change the time interval between every comparison.
 + Allow more than one record at a time.
