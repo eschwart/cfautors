@@ -15,7 +15,7 @@ use {
 
 #[derive(Parser)]
 #[command(author, version, about)]
-struct Config {
+pub struct Config {
     #[arg(short, long)]
     email: String,
 
@@ -32,6 +32,12 @@ struct Config {
     delay: Duration,
 }
 
+impl Default for Config {
+    fn default() -> Self {
+        Self::parse()
+    }
+}
+
 pub struct BaseClient {
     client: Client,
     body: Body,
@@ -46,15 +52,15 @@ impl BaseClient {
         PublicIpAPI::Ifconfig,
     ];
 
-    pub fn setup() -> Result<Self> {
-        let Config {
+    pub fn setup(
+        Config {
             email,
             api_token,
             zone_id,
             id,
             delay,
-        } = Config::parse();
-
+        }: Config,
+    ) -> Result<Self> {
         let client = Client::default();
         let builder_fn = Box::new(move |method: Method, client: &Client| -> RequestBuilder {
             client

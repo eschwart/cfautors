@@ -6,7 +6,8 @@ mod util;
 use {cfg::*, err::*, util::*};
 
 fn main() -> Result<()> {
-    let mut client = dbg("Initializing client", || BaseClient::setup())?;
+    let cfg = Config::default();
+    let mut client = dbg("Initializing client", || BaseClient::setup(cfg))?;
 
     loop {
         match dbg("Doing routine", || routine(&mut client)) {
