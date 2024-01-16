@@ -15,14 +15,17 @@ default-features = false
 features = ["blocking", "default-tls", "json"]
 
 [dependencies.serde]
-version = "1.0.193"
+version = "1.0.195"
 default-features = false
 
 [dependencies.serde_derive]
-version = "1.0.193"
+version = "1.0.195"
 default-features = false
 
 [dependencies.clap]
-version = "4.4.11"
+version = "4.4.17"
 default-features = false
 features = ["std", "derive", "help", "color", "usage", "error-context"]
+
+[dependencies.humantime]
+version = "2.1.0"
