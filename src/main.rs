@@ -18,6 +18,9 @@ fn main() -> Result<()> {
             }
             Err(e) => eprintln!("{}", e),
         }
-        dbg("Delaying", || Ok(client.delay()))?;
+        dbg("Delaying", || {
+            client.delay();
+            Ok(())
+        })?;
     }
 }

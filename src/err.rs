@@ -3,7 +3,7 @@ pub type Result<T, E = Error> = std::result::Result<T, E>;
 pub enum Error {
     Reqwest(reqwest::Error),
     Cloudflare,
-    API,
+    Api,
     Invalid,
     IO(std::io::Error),
     ParseInt(std::num::ParseIntError),
@@ -38,7 +38,7 @@ impl std::fmt::Display for Error {
         f.write_str(&match self {
             Self::Reqwest(e) => e.to_string(),
             Self::Cloudflare => "Failed to properly retrieve dns record".to_string(),
-            Self::API => "All public ip API failed".to_string(),
+            Self::Api => "All public ip API failed".to_string(),
             Self::Invalid => "Invalid parsing for DNS record name".to_string(),
             Self::IO(e) => e.to_string(),
             Self::ParseInt(e) => e.to_string(),

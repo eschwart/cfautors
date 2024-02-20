@@ -13,6 +13,8 @@ use {
     std::{net::IpAddr, thread::sleep, time::Duration},
 };
 
+type BaseClientBuilder = Box<dyn Fn(Method, &Client) -> RequestBuilder>;
+
 #[derive(Parser)]
 #[command(author, version, about)]
 pub struct Config {
@@ -41,7 +43,7 @@ impl Default for Config {
 pub struct BaseClient {
     client: Client,
     body: Body,
-    builder_fn: Box<dyn Fn(Method, &Client) -> RequestBuilder>,
+    builder_fn: BaseClientBuilder,
     delay: Duration,
 }
 
@@ -105,7 +107,7 @@ impl BaseClient {
         Self::PUBLIC_IP_API
             .into_iter()
             .find_map(|api| api.try_get(&self.client).ok())
-            .ok_or(Error::API)
+            .ok_or(Error::Api)
     }
 
     pub fn delay(&self) {
