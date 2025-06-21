@@ -6,9 +6,9 @@ use {
     clap::Parser,
     humantime::parse_duration,
     reqwest::{
+        Method,
         blocking::{Client, RequestBuilder},
         header::CONTENT_TYPE,
-        Method,
     },
     std::{net::IpAddr, thread::sleep, time::Duration},
 };

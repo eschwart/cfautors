@@ -1,7 +1,7 @@
 use {
     crate::{BaseClient, Result},
     std::{
-        io::{stdout, Write},
+        io::{Write, stdout},
         net::IpAddr,
     },
 };
